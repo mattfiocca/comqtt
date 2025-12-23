@@ -8,9 +8,9 @@ import (
 	"bytes"
 	"errors"
 
-	msg "github.com/wind-c/comqtt/v2/cluster/message"
-	"github.com/wind-c/comqtt/v2/mqtt"
-	"github.com/wind-c/comqtt/v2/mqtt/packets"
+	msg "github.com/mattfiocca/comqtt/cluster/message"
+	"github.com/mattfiocca/comqtt/mqtt"
+	"github.com/mattfiocca/comqtt/mqtt/packets"
 )
 
 // MqttEventHook is a mqtt event hook that callback when events such as connect, publish, subscribe, etc. occur.

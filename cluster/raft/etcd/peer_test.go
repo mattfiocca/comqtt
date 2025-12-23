@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/mattfiocca/comqtt/cluster/log"
+	"github.com/mattfiocca/comqtt/cluster/message"
+	"github.com/mattfiocca/comqtt/config"
+	"github.com/mattfiocca/comqtt/mqtt/packets"
 	"github.com/stretchr/testify/require"
-	"github.com/wind-c/comqtt/v2/cluster/log"
-	"github.com/wind-c/comqtt/v2/cluster/message"
-	"github.com/wind-c/comqtt/v2/config"
-	"github.com/wind-c/comqtt/v2/mqtt/packets"
 )
 
 func createTestPeer(t *testing.T) *Peer {

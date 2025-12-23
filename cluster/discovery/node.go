@@ -10,7 +10,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/wind-c/comqtt/v2/mqtt"
+	"github.com/mattfiocca/comqtt/mqtt"
 )
 
 const (

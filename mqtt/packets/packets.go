@@ -13,7 +13,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/wind-c/comqtt/v2/mqtt/mempool"
+	"github.com/mattfiocca/comqtt/mqtt/mempool"
 )
 
 // All valid packet types and their packet identifiers.

@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/mattfiocca/comqtt/cluster/log"
+	"github.com/mattfiocca/comqtt/cluster/utils"
+	"github.com/mattfiocca/comqtt/config"
 	"github.com/stretchr/testify/assert"
-	"github.com/wind-c/comqtt/v2/cluster/log"
-	"github.com/wind-c/comqtt/v2/cluster/utils"
-	"github.com/wind-c/comqtt/v2/config"
 )
 
 func TestMain(m *testing.M) {

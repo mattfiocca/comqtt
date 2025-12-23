@@ -17,7 +17,7 @@ import (
 
 	"github.com/rs/xid"
 
-	"github.com/wind-c/comqtt/v2/mqtt/packets"
+	"github.com/mattfiocca/comqtt/mqtt/packets"
 )
 
 const (

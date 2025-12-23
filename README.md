@@ -4,7 +4,7 @@
 [![Build Status](https://github.com/wind-c/comqtt/actions/workflows/runtests.yaml/badge.svg)](https://github.com/wind-c/comqtt/actions/workflows/runtests.yaml)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/wind-c/comqtt/issues)
 [![codecov](https://codecov.io/gh/wind-c/comqtt/branch/master/graph/badge.svg?token=6vBUgYVaVB)](https://codecov.io/gh/wind-c/comqtt/v2)
-[![GoDoc](https://godoc.org/github.com/wind-c/comqtt?status.svg)](https://pkg.go.dev/github.com/wind-c/comqtt/v2)
+[![GoDoc](https://godoc.org/github.com/wind-c/comqtt?status.svg)](https://pkg.go.dev/github.com/mattfiocca/comqtt)
 
 </p>
 
@@ -97,9 +97,9 @@ Importing Comqtt as a package requires just a few lines of code to get started.
 import (
   "log"
 
-  "github.com/wind-c/comqtt/v2/mqtt"
-  "github.com/wind-c/comqtt/v2/mqtt/hooks/auth"
-  "github.com/wind-c/comqtt/v2/mqtt/listeners"
+  "github.com/mattfiocca/comqtt/mqtt"
+  "github.com/mattfiocca/comqtt/mqtt/hooks/auth"
+  "github.com/mattfiocca/comqtt/mqtt/listeners"
 )
 
 func main() {

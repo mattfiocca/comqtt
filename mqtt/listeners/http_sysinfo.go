@@ -14,7 +14,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/wind-c/comqtt/v2/mqtt/system"
+	"github.com/mattfiocca/comqtt/mqtt/system"
 )
 
 // HTTPStats is a listener for presenting the server $SYS stats on a JSON http endpoint.

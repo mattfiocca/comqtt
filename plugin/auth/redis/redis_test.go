@@ -7,10 +7,10 @@ import (
 	"testing"
 
 	"github.com/alicebob/miniredis/v2"
+	"github.com/mattfiocca/comqtt/mqtt"
+	"github.com/mattfiocca/comqtt/mqtt/hooks/auth"
+	"github.com/mattfiocca/comqtt/mqtt/packets"
 	"github.com/stretchr/testify/require"
-	"github.com/wind-c/comqtt/v2/mqtt"
-	"github.com/wind-c/comqtt/v2/mqtt/hooks/auth"
-	"github.com/wind-c/comqtt/v2/mqtt/packets"
 )
 
 var (

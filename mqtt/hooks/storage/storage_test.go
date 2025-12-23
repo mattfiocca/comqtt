@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/mattfiocca/comqtt/mqtt/packets"
+	"github.com/mattfiocca/comqtt/mqtt/system"
 	"github.com/stretchr/testify/require"
-	"github.com/wind-c/comqtt/v2/mqtt/packets"
-	"github.com/wind-c/comqtt/v2/mqtt/system"
 )
 
 var (

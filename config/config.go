@@ -10,8 +10,8 @@ import (
 	"errors"
 	"os"
 
-	"github.com/wind-c/comqtt/v2/cluster/log"
-	comqtt "github.com/wind-c/comqtt/v2/mqtt"
+	"github.com/mattfiocca/comqtt/cluster/log"
+	comqtt "github.com/mattfiocca/comqtt/mqtt"
 	"gopkg.in/yaml.v3"
 )
 

@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/memberlist"
-	"github.com/wind-c/comqtt/v2/cluster/log"
-	mqtt "github.com/wind-c/comqtt/v2/mqtt"
+	"github.com/mattfiocca/comqtt/cluster/log"
+	mqtt "github.com/mattfiocca/comqtt/mqtt"
 )
 
 // Maximum number of messages to be held in the queue.

@@ -13,11 +13,11 @@ import (
 
 	"log/slog"
 
-	"github.com/wind-c/comqtt/v2/cluster/utils"
-	"github.com/wind-c/comqtt/v2/mqtt"
-	"github.com/wind-c/comqtt/v2/mqtt/hooks/storage"
-	"github.com/wind-c/comqtt/v2/mqtt/packets"
-	"github.com/wind-c/comqtt/v2/mqtt/system"
+	"github.com/mattfiocca/comqtt/cluster/utils"
+	"github.com/mattfiocca/comqtt/mqtt"
+	"github.com/mattfiocca/comqtt/mqtt/hooks/storage"
+	"github.com/mattfiocca/comqtt/mqtt/packets"
+	"github.com/mattfiocca/comqtt/mqtt/system"
 
 	miniredis "github.com/alicebob/miniredis/v2"
 	redis "github.com/redis/go-redis/v9"

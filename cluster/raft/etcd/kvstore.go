@@ -7,13 +7,14 @@ package etcd
 import (
 	"bytes"
 	"encoding/gob"
-	"github.com/wind-c/comqtt/v2/cluster/log"
-	"github.com/wind-c/comqtt/v2/cluster/message"
-	base "github.com/wind-c/comqtt/v2/cluster/raft"
-	"github.com/wind-c/comqtt/v2/mqtt/packets"
+	"strings"
+
+	"github.com/mattfiocca/comqtt/cluster/log"
+	"github.com/mattfiocca/comqtt/cluster/message"
+	base "github.com/mattfiocca/comqtt/cluster/raft"
+	"github.com/mattfiocca/comqtt/mqtt/packets"
 	"go.etcd.io/etcd/server/v3/etcdserver/api/snap"
 	"go.etcd.io/raft/v3/raftpb"
-	"strings"
 )
 
 // KVStore is a key-value store backed by raft

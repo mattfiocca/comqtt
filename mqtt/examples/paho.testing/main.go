@@ -11,9 +11,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/wind-c/comqtt/v2/mqtt"
-	"github.com/wind-c/comqtt/v2/mqtt/listeners"
-	"github.com/wind-c/comqtt/v2/mqtt/packets"
+	"github.com/mattfiocca/comqtt/mqtt"
+	"github.com/mattfiocca/comqtt/mqtt/listeners"
+	"github.com/mattfiocca/comqtt/mqtt/packets"
 )
 
 func main() {

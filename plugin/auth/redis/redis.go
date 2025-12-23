@@ -7,12 +7,12 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/mattfiocca/comqtt/mqtt"
+	"github.com/mattfiocca/comqtt/mqtt/hooks/auth"
+	"github.com/mattfiocca/comqtt/mqtt/packets"
+	"github.com/mattfiocca/comqtt/plugin"
+	pa "github.com/mattfiocca/comqtt/plugin/auth"
 	"github.com/redis/go-redis/v9"
-	"github.com/wind-c/comqtt/v2/mqtt"
-	"github.com/wind-c/comqtt/v2/mqtt/hooks/auth"
-	"github.com/wind-c/comqtt/v2/mqtt/packets"
-	"github.com/wind-c/comqtt/v2/plugin"
-	pa "github.com/wind-c/comqtt/v2/plugin/auth"
 )
 
 // defaultAddr is the default address to the redis service.

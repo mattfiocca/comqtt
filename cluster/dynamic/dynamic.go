@@ -11,11 +11,11 @@ import (
 	"time"
 
 	"github.com/go-redsync/redsync/v4"
-	"github.com/wind-c/comqtt/v2/cluster/discovery"
-	"github.com/wind-c/comqtt/v2/cluster/log"
-	"github.com/wind-c/comqtt/v2/cluster/storage/redis"
-	"github.com/wind-c/comqtt/v2/cluster/utils"
-	"github.com/wind-c/comqtt/v2/config"
+	"github.com/mattfiocca/comqtt/cluster/discovery"
+	"github.com/mattfiocca/comqtt/cluster/log"
+	"github.com/mattfiocca/comqtt/cluster/storage/redis"
+	"github.com/mattfiocca/comqtt/cluster/utils"
+	"github.com/mattfiocca/comqtt/config"
 )
 
 const (

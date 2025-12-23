@@ -5,10 +5,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/mattfiocca/comqtt/cluster/log"
+	"github.com/mattfiocca/comqtt/cluster/utils"
+	"github.com/mattfiocca/comqtt/config"
 	"github.com/stretchr/testify/require"
-	"github.com/wind-c/comqtt/v2/cluster/log"
-	"github.com/wind-c/comqtt/v2/cluster/utils"
-	"github.com/wind-c/comqtt/v2/config"
 )
 
 func TestCluster(t *testing.T) {

@@ -1,4 +1,4 @@
-module github.com/wind-c/comqtt/v2
+module github.com/mattfiocca/comqtt
 
 go 1.24.0
 

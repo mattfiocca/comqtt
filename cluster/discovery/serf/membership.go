@@ -9,10 +9,10 @@ import (
 
 	"github.com/hashicorp/logutils"
 	"github.com/hashicorp/serf/serf"
-	mb "github.com/wind-c/comqtt/v2/cluster/discovery"
-	"github.com/wind-c/comqtt/v2/cluster/log"
-	"github.com/wind-c/comqtt/v2/config"
-	"github.com/wind-c/comqtt/v2/mqtt"
+	mb "github.com/mattfiocca/comqtt/cluster/discovery"
+	"github.com/mattfiocca/comqtt/cluster/log"
+	"github.com/mattfiocca/comqtt/config"
+	"github.com/mattfiocca/comqtt/mqtt"
 )
 
 const (

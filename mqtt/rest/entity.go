@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/wind-c/comqtt/v2/mqtt"
+	"github.com/mattfiocca/comqtt/mqtt"
 )
 
 type client struct {
