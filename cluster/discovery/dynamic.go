@@ -417,7 +417,8 @@ func (r *DynamicRegistry) StartEventLoop() {
 
 func (r *DynamicRegistry) Stop() (err error) {
 
-	if !r.cfg.DynamicMembership.Enable {
+	// cfg will be nil if dyn wasn't enabled
+	if r.cfg == nil || !r.cfg.DynamicMembership.Enable {
 		return
 	}
 
