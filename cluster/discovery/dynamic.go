@@ -167,6 +167,7 @@ func (r *DynamicRegistry) Claim() (err error) {
 		for _, m := range ms {
 			if m.Addr == address {
 				nodename = m.Name
+				log.Info(logTag, "claim", "found nodes.json file, resuming previous node name...")
 				return
 			}
 		}
