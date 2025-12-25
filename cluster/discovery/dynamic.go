@@ -88,13 +88,13 @@ func (r *DynamicRegistry) Init(cfg *config.Cluster, nodesFile string) (err error
 		cfg.DynamicMembership.MaxLockAttempts = defaultMaxLockAttempts
 	}
 
-	log.Info(logTag, fmt.Sprintf("using node name prefix: %s", cfg.DynamicMembership.NodeNamePrefix))
-	log.Info(logTag, fmt.Sprintf("using nodes registry table key: %s", cfg.DynamicMembership.NodesRegistryKey))
-	log.Info(logTag, fmt.Sprintf("using node exp: %d secs", cfg.DynamicMembership.NodeRegistryExp))
-	log.Info(logTag, fmt.Sprintf("using event loop interval: %d secs", cfg.DynamicMembership.EventLoopIntervalSec))
-	log.Info(logTag, fmt.Sprintf("using lock key: %s", cfg.DynamicMembership.LockKey))
-	log.Info(logTag, fmt.Sprintf("using lock frequency: %d secs", cfg.DynamicMembership.LockLoopIntervalSec))
-	log.Info(logTag, fmt.Sprintf("using max lock attempts: %d", cfg.DynamicMembership.MaxLockAttempts))
+	log.Info(logTag, "startup", fmt.Sprintf("using node name prefix: %s", cfg.DynamicMembership.NodeNamePrefix))
+	log.Info(logTag, "startup", fmt.Sprintf("using nodes registry table key: %s", cfg.DynamicMembership.NodesRegistryKey))
+	log.Info(logTag, "startup", fmt.Sprintf("using node exp: %d secs", cfg.DynamicMembership.NodeRegistryExp))
+	log.Info(logTag, "startup", fmt.Sprintf("using event loop interval: %d secs", cfg.DynamicMembership.EventLoopIntervalSec))
+	log.Info(logTag, "startup", fmt.Sprintf("using lock key: %s", cfg.DynamicMembership.LockKey))
+	log.Info(logTag, "startup", fmt.Sprintf("using lock frequency: %d secs", cfg.DynamicMembership.LockLoopIntervalSec))
+	log.Info(logTag, "startup", fmt.Sprintf("using max lock attempts: %d", cfg.DynamicMembership.MaxLockAttempts))
 
 	// cluster mode requires redis, we shouldn't need to validate storage-way=3
 
@@ -127,13 +127,13 @@ func (r *DynamicRegistry) Claim() (err error) {
 
 	// determine who is first to boot for RaftBootstrap
 	// use a distributed lock to wait until it's our turn to claim a name
-	log.Info(logTag, "waiting to acquire claim lock")
+	log.Info(logTag, "claim", "waiting to acquire claim lock")
 	lock, err := r.Lock()
 	if err != nil {
 		return err
 	}
 
-	log.Info(logTag, "claim lock acquired")
+	log.Info(logTag, "claim", "claim lock acquired")
 
 	address, err := r.GenerateNodeAddress()
 	if err != nil {
@@ -227,7 +227,7 @@ func (r *DynamicRegistry) FinalizeClaim(address string, nodename string, lock *r
 		return
 	}
 
-	log.Info(logTag, fmt.Sprintf("node %s claimed for %s", nodename, address))
+	log.Info(logTag, "claim", fmt.Sprintf("node %s claimed for %s", nodename, address))
 
 	r.NodeKey = fmt.Sprintf("%s:%s", address, nodename)
 
@@ -240,7 +240,7 @@ func (r *DynamicRegistry) FinalizeClaim(address string, nodename string, lock *r
 	// first node gets the bootstrap flag
 	if len(registry) == 0 {
 		r.cfg.RaftBootstrap = true
-		log.Info(logTag, fmt.Sprintf("%s assuming raft leader", address))
+		log.Info(logTag, "claim", fmt.Sprintf("%s assuming raft leader", address))
 	}
 
 	// in case set via config file,
@@ -270,7 +270,7 @@ func (r *DynamicRegistry) FinalizeClaim(address string, nodename string, lock *r
 		return err
 	}
 
-	log.Info(logTag, "claim lock released")
+	log.Info(logTag, "claim", "claim lock released")
 	return
 }
 
@@ -352,7 +352,7 @@ func (r *DynamicRegistry) SaveNode() (err error) {
 			r.NodeKey,
 		).Err()
 		if hexp_err != nil {
-			log.Debug(logTag, "Could not use HEXPIRE directly. Ensure Redis 7.4+ is used and client is updated.", hexp_err)
+			log.Debug(logTag, "redis", "Could not use HEXPIRE directly. Ensure Redis 7.4+ is used and client is updated.", hexp_err)
 		}
 	}
 	return
@@ -374,7 +374,7 @@ func (r *DynamicRegistry) StartEventLoop() {
 		select {
 		// stop
 		case <-r.term:
-			log.Info(logTag, "stopping event loop...")
+			log.Info(logTag, "registry", "stopping event loop...")
 			return
 		default:
 			// if working properly, we should see join/leave events happening automatically in serf
@@ -383,19 +383,19 @@ func (r *DynamicRegistry) StartEventLoop() {
 			// bump node TTL
 			err := r.SaveNode()
 			if err != nil {
-				log.Error(logTag, "r.SaveNode():", err.Error())
+				log.Error(logTag, "error", "r.SaveNode():", err.Error())
 				return
 			}
 			nodes, err := r.GetRegistry()
 			if err != nil {
-				log.Error(logTag, "r.GetRegistry():", err.Error())
+				log.Error(logTag, "error", "r.GetRegistry():", err.Error())
 				return
 			}
 			// new members with new IPs
 			for _, node := range nodes {
 				membership := fmt.Sprintf("%s:%d", node.Addr, r.cfg.BindPort)
 				if !slices.Contains(r.cfg.Members, membership) {
-					log.Info(logTag, fmt.Sprintf("new membership: %s", membership))
+					log.Info(logTag, "membership", fmt.Sprintf("new membership: %s", membership))
 					r.cfg.Members = append(r.cfg.Members, membership)
 				}
 			}
@@ -422,7 +422,7 @@ func (r *DynamicRegistry) Stop() (err error) {
 		return
 	}
 
-	log.Info(logTag, "stopping registry...")
+	log.Info(logTag, "registry", "stopping registry...")
 
 	// stop the event loop
 	close(r.term)
