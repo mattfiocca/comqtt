@@ -75,10 +75,10 @@ func NewAgent(conf *config.Cluster) *Agent {
 
 func (a *Agent) Start() (err error) {
 
-	// init dynamic membership after redis connection, but before we serf
-	// if disabled, skips and moves on
+	// init dynamic membership after redis connection, but before serf
 	// if enabled, blocks until a NodeName can be claimed
-	err = a.dynamicRegistry.Init(a.Config, context.Background())
+	// if disabled, skips and moves on
+	err = a.dynamicRegistry.Init(a.Config, a.getNodesFile())
 	if err != nil {
 		return
 	}
