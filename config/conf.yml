@@ -33,6 +33,7 @@ cluster:
     address-way: 0 #How the node address is derived: 0 use provided bind-addr, 1 private ip, 2 public ip, 3 hostname
     node-name-way: 0 #How the node name is derived/generated: 0 use provided node-name, 1 private ip, 2 public ip, 3 hostname, 4 uuid, 5 node sequence num
     node-name-prefix: node- #Node name prefix
+    node-seq-padding: 0 #If node-name-way=5, zero-pad the sequence number to N digits, 0 disabled
     event-loop-interval-sec: 10 #Frequency of keeping the node up to date in the redis registry. Must be lower than redis-node-key-exp.
     nodes-registry-key: nodes #Key name for redis node registry hash table
     node-registry-exp: 30 #Expiration/TTL in seconds of the node in the redis registry. Must be greater than event-loop-interval-sec.

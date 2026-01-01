@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -42,6 +43,7 @@ const (
 	NodeNameWayPublicIP
 	NodeNameWayHostname
 	NodeNameWayUUID
+	NodeNameWaySequenceNum
 )
 
 var (
@@ -142,7 +144,7 @@ func (r *SeedRegistry) register() (err error) {
 	log.Info("registry lock acquired", logTag, "register")
 
 	var address string
-	address, err = r.GenerateNodeAddress()
+	address, err = r.generateNodeAddress()
 	if err != nil {
 		return
 	}
@@ -150,14 +152,12 @@ func (r *SeedRegistry) register() (err error) {
 	log.Info(fmt.Sprintf("using address: %s", address), logTag, "register")
 
 	var nodename string = ""
+	nodename, err = r.generateNodeName(address)
+	if err != nil {
+		return
+	}
 
-	defer func() {
-		if fErr := r.finalize(address, nodename); fErr != nil {
-			err = fErr
-		}
-	}()
-
-	nodename, err = r.GenerateNodeName(address)
+	err = r.finalize(address, nodename)
 	if err != nil {
 		return
 	}
@@ -166,7 +166,7 @@ func (r *SeedRegistry) register() (err error) {
 	return
 }
 
-func (r *SeedRegistry) GenerateNodeAddress() (address string, err error) {
+func (r *SeedRegistry) generateNodeAddress() (address string, err error) {
 	switch r.cfg.SeedRegistry.AddressWay {
 	case AddressWayBindAddr:
 		address = r.cfg.BindAddr
@@ -187,7 +187,7 @@ func (r *SeedRegistry) GenerateNodeAddress() (address string, err error) {
 	return
 }
 
-func (r *SeedRegistry) GenerateNodeName(addr string) (name string, err error) {
+func (r *SeedRegistry) generateNodeName(addr string) (name string, err error) {
 
 	// if we already have a node cached locally, resume
 	ms := ReadMembers(r.NodesFilePath)
@@ -217,6 +217,54 @@ func (r *SeedRegistry) GenerateNodeName(addr string) (name string, err error) {
 		return
 	case NodeNameWayUUID:
 		name = utils.GenerateUUID4()
+		return
+	case NodeNameWaySequenceNum:
+		// get current registry
+		var registry []*Member
+		registry, err = r.getRegistry()
+		if err != nil {
+			return
+		}
+		// extract current nums
+		// they might be out of sequence, and possibly missing nums
+		var nums []int
+		for _, member := range registry {
+			nodenumstr := strings.TrimPrefix(member.Name, r.cfg.SeedRegistry.NodeNamePrefix)
+			if nodenumstr != "" {
+				var i64 uint64
+				i64, err = strconv.ParseUint(nodenumstr, 10, 64)
+				if err != nil {
+					return
+				}
+				nums = append(nums, int(i64))
+			}
+		}
+		// sort in order
+		slices.Sort(nums)
+
+		// find any missing nums
+		max := nums[len(nums)-1]
+		numMap := make(map[int]bool)
+		for _, num := range nums {
+			numMap[num] = true
+		}
+		missing := []int{}
+		for i := 1; i <= max; i++ {
+			if !numMap[i] {
+				missing = append(missing, i)
+			}
+		}
+
+		// assume the first missing num
+		var next int
+		if len(missing) > 0 {
+			next = missing[0]
+			// if there are no missing nums, take the next num in the sequence
+		} else {
+			next = max + 1
+		}
+
+		name = fmt.Sprintf("%0*d", r.cfg.SeedRegistry.NodeSeqPadding, next)
 		return
 	default:
 		err = errors.New("invalid node-name-way")

@@ -156,6 +156,7 @@ type seedRegistryOptions struct {
 	AddressWay           uint   `yaml:"address-way" json:"address-way"`
 	NodeNameWay          uint   `yaml:"node-name-way" json:"node-name-way"`
 	NodeNamePrefix       string `yaml:"node-name-prefix" json:"node-name-prefix"`
+	NodeSeqPadding       uint   `yaml:"node-seq-padding" json:"node-seq-padding"`
 	EventLoopIntervalSec int64  `yaml:"event-loop-interval-sec" json:"event-loop-interval-sec"`
 	NodesRegistryKey     string `yaml:"nodes-registry-key" json:"nodes-registry-key"`
 	NodeRegistryExp      int64  `yaml:"node-registry-exp" json:"node-registry-exp"`
