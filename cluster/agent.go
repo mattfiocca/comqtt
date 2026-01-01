@@ -42,7 +42,7 @@ const (
 
 type Agent struct {
 	membership        discovery.Node
-	dynamicRegistry   *discovery.DynamicRegistry
+	seedRegistry      *discovery.SeedRegistry
 	ctx               context.Context
 	cancel            context.CancelFunc
 	Config            *config.Cluster
@@ -62,25 +62,24 @@ type Agent struct {
 func NewAgent(conf *config.Cluster) *Agent {
 	ctx, cancel := context.WithCancel(context.Background())
 	return &Agent{
-		ctx:             ctx,
-		cancel:          cancel,
-		Config:          conf,
-		subTree:         topics.New(),
-		raftNotifyCh:    make(chan *message.Message, 1024),
-		inboundMsgCh:    make(chan []byte, 10240),
-		grpcMsgCh:       make(chan *message.Message, 10240),
-		dynamicRegistry: discovery.NewDynamicRegistry(),
+		ctx:          ctx,
+		cancel:       cancel,
+		Config:       conf,
+		subTree:      topics.New(),
+		raftNotifyCh: make(chan *message.Message, 1024),
+		inboundMsgCh: make(chan []byte, 10240),
+		grpcMsgCh:    make(chan *message.Message, 10240),
 	}
 }
 
 func (a *Agent) Start() (err error) {
 
-	// init dynamic membership after redis connection, but before serf
-	// if enabled, blocks until a NodeName can be claimed
-	// if disabled, skips and moves on
-	err = a.dynamicRegistry.Init(a.Config, a.getNodesFile())
-	if err != nil {
-		return
+	if a.Config.SeedRegistry.Enable {
+		a.seedRegistry = discovery.NewSeedRegistry(a.Config)
+		a.seedRegistry.NodesFilePath = a.getNodesFile()
+		if err := a.seedRegistry.Start(); err != nil {
+			return err
+		}
 	}
 
 	// setup raft
@@ -103,7 +102,6 @@ func (a *Agent) Start() (err error) {
 			return
 		}
 	}
-
 	raftAddr := net.JoinHostPort(a.Config.BindAddr, strconv.Itoa(a.Config.RaftPort))
 	OnJoinLog(a.Config.NodeName, raftAddr, "setup raft", nil)
 
@@ -172,11 +170,8 @@ func (a *Agent) initPool() error {
 
 func (a *Agent) Stop() {
 
-	// cancel dynamic membership registry
-	// skips if disabled
-	err := a.dynamicRegistry.Stop()
-	if err != nil {
-		log.Error(err.Error())
+	if a.seedRegistry != nil {
+		a.seedRegistry.Stop()
 	}
 
 	a.cancel()

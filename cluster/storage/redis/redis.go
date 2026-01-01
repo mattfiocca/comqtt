@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/go-redsync/redsync/v4"
 	redis "github.com/redis/go-redis/v9"
 	"github.com/wind-c/comqtt/v2/cluster/utils"
 	"github.com/wind-c/comqtt/v2/mqtt"
@@ -27,6 +28,7 @@ const defaultHPrefix = "comqtt"
 var (
 	localIP = "127.0.0.1"
 	rclient *redis.Client
+	rdsync  *redsync.Redsync
 )
 
 // export clients
