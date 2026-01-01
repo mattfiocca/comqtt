@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/go-redsync/redsync/v4"
 	"github.com/mattfiocca/comqtt/cluster/utils"
 	"github.com/mattfiocca/comqtt/mqtt"
 	"github.com/mattfiocca/comqtt/mqtt/hooks/storage"
@@ -27,6 +28,7 @@ const defaultHPrefix = "comqtt"
 var (
 	localIP = "127.0.0.1"
 	rclient *redis.Client
+	rdsync  *redsync.Redsync
 )
 
 // export clients
